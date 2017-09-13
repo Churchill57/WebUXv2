@@ -1,0 +1,72 @@
+﻿@using WebUXv2.LogicalUnits.TaskManager
+@model IEnumerable<WebUXv2.Models.TaskType>
+
+@Html.Hidden("forceContextSearch", false)
+
+@{
+    int keyCode = (int)'x' - 32;
+}
+
+<script>
+    $(document)
+        .ready(function() {
+            $(window)
+                .keydown(function(evt) {
+                    if (evt.which == @keyCode) {
+                        $("#forceContextSearch").val(true);
+                        //alert("down");
+                    }
+                });
+            $(window)
+                .keyup(function(evt) {
+                    if (evt.which == @keyCode) {
+                        $("#forceContextSearch").val(false);
+                        //alert("up");
+                    }
+                });
+            $("[name=app]")
+                .click(function(evt) {
+                    evt.preventDefault();
+                    //alert(evt.target.href + "&forceContextSearch=" + $("#forceContextSearch").val());
+                    location.href = evt.target.href + "&forceContextSearch=" + $("#forceContextSearch").val();
+                });
+        });
+</script>
+    
+@{
+    var searchText = ViewBag.SearchText ;
+
+    if (Model.Any())
+    {
+        <table class="table table-striped table-hover">
+
+            <tr>
+                <th>
+                    Select the App to run
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Run", "RunTask", "TaskManager", new { componentName = item.RootComponentName, searchText = searchText }, new { name = "app", @class = "btn btn-success" })
+                        &nbsp;&nbsp;&nbsp;
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Add to My Apps", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = $"AddTaskType|{item.RootComponentName}|app" }, new {@class="btn btn-warning"})
+                        &nbsp;(@Html.DisplayFor(modelItem => item.CriteriaMatchScore))
+                    </td>
+                </tr>
+            }
+
+        </table>    }
+    else
+    {
+        <p>No Apps found matching criteria</p>
+    }
+
+
+}

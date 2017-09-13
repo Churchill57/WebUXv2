@@ -1,0 +1,79 @@
+﻿@model WebUXv2.Models.SearchAndRunAppViewModel
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+
+    AjaxOptions options = new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "searchResults",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "loadingMsg",
+        OnSuccess = "ResultsReady"
+    };
+}
+
+<script>
+    // Reinstate last search results.
+    $(document).ready(function () {
+        if ($.trim($("#searchText").val()).length > 0 && !$("#RunBestMatch")[0].checked) $("#appSearchForm").submit();
+    });
+
+    function ResultsReady() {
+        if ($("#RunBestMatch")[0].checked) {
+            var href = $("#searchResults a:first").attr("href");
+            if (href != undefined) window.location.href = href;
+        };
+    }
+</script>
+
+<div class="row">
+
+    <div class="col-md-12 margin-top-20">
+
+        @using (Ajax.BeginForm("SearchAppsToRun", "TaskManager", new { uxTaskId = uxTaskId }, options, new { id = "appSearchForm" }))
+        {
+            @Html.TextBox("searchText", Model.SearchText, new { style = "width: 500px" })
+            <input type="submit" value="Begin" class="btn btn-success" />
+            <span id="loadingMsg" style="color: red; width: 400px; background-color: yellow; font-size: larger; display: none; position: absolute;">Searching available apps. Please wait ....</span>
+
+            <br/>
+            <h4>@Html.EditorFor(model => model.RunBestMatch)&nbsp;Jump straight to the best matching App</h4>
+            if (!Model.HideInstructions)
+            {
+                <br />
+                        <div class="text-info">
+                            <h4>
+                                Enter a few words to describe what you want to achieve, then click the begin button
+                                to find the right App for the job.
+                            </h4>
+                            <h4>
+                                You can include information which may identify or narrow down the customer, policy or quote you are interested in.
+                            </h4>
+                            <p>
+                                Examples
+                            </p>
+                            <ul>
+                                <li>new gifl quote</li>
+                                <li>record customer 3 2nd defence questions</li>
+                                <li>change customer 123 contact preferences</li>
+                                <li>change address Mr Cottimore</li>
+                                <li>annuitant death cert received PA123456</li>
+                                <li>policy drawdown 3800235</li>
+                            </ul>
+                            <h4>@Html.EditorFor(model => model.HideInstructions)&nbsp;OK, Got it</h4>
+                            
+                        </div>                    }
+        }
+
+        <br />
+        <br />
+
+        <div id="searchResults">
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

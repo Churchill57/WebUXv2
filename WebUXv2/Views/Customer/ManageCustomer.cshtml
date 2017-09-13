@@ -1,0 +1,93 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.LogicalUnits.TaskManager
+@using WebUXv2.UserExperiences.Customer
+@using WebUXv2.UserExperiences.PropertyAddress
+@model WebUXv2.Models.Customer
+
+@{
+    bool showBackButton = ViewBag.ShowBackButton;
+    string backButtonText = ViewBag.BackButtonText;
+    var uxTaskId = ViewBag.uxTaskId;
+
+    var firstAddress = Model.Addresses.FirstOrDefault();
+    var addressCount = Model.Addresses.Count;
+
+    var firstPhoneNumber = Model.PhoneNumbers.FirstOrDefault();
+    var phoneNumberCount = Model.PhoneNumbers.Count;
+
+    var tm = new TaskManager();
+    var ultimateParentId = tm.GetUltimateParentLogicalUnitTask(uxTaskId).Id;
+
+}
+
+@Html.ActionLink("Manage a different customer", "ResetCustomerContextInput", new { uxTaskId = uxTaskId })
+<div class="row">
+    <div class="col-md-6 margin-top-20">
+        <h3>Customer Details</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DOB)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DOB)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NINO)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NINO)
+            </dd>
+
+        </dl>
+
+        @if (showBackButton)
+        {
+            @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+            <span>&nbsp; &nbsp;</span>
+        }
+
+        @Html.ActionLink("Done", "Done", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-success" })
+        <br />
+        <br />
+        <br />
+        @Html.ActionLink("Amend", "RunTask", "TaskManager", new { componentName = typeof(UxAmendCustomer).Name, parentTaskId = ultimateParentId }, new { @class = "btn btn-warning" })
+
+        <br />        <br />
+        <br />
+        <br />
+        <h3>Options</h3>
+        @Html.CheckBox("ManageCustomerAfterAmendedCustomer", true)&nbsp;Show this page after amending a customer
+    </div>
+
+    <div class="col-md-6 margin-top-20">
+        @{Html.RenderAction("SecondaryTasks", "TaskManager", new { uxTaskId = uxTaskId });}
+    </div>
+
+</div>

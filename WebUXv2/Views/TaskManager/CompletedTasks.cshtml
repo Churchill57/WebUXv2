@@ -1,0 +1,17 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.LogicalUnits.TaskManager
+@using WebUXv2.Models
+@model IEnumerable<WebUXv2.Models.CompletedTask>
+
+<table class="table table-striped table-hover">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
+    }
+
+</table>

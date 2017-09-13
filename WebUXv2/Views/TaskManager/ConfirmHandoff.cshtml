@@ -1,0 +1,58 @@
+﻿@using WebUXv2.LogicalUnits.TaskManager
+
+@{
+    var returnUrl = ViewBag.ReturnUrl;
+    var resumeTaskId = ViewBag.ResumeTaskId;
+}
+
+<h2>Hand Off Task</h2>
+
+<a href="@returnUrl" class="btn btn-danger">No Don't</a>
+<br />
+<br />
+
+<h3>Handoff Notes</h3>
+<textarea rows="5" cols="100">
+    
+</textarea>
+
+<br />
+<br />
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            Active Users & Queues
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Hand Off", "HandOffTask", "TaskManager", new { uxTaskId = resumeTaskId }, new { @class = "btn btn-success" })
+            &nbsp;&nbsp;&nbsp;
+            Fred Blogs
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Hand Off", "HandOffTask", "TaskManager", new { uxTaskId = resumeTaskId }, new { @class = "btn btn-success" })
+            &nbsp;&nbsp;&nbsp;
+            My Manager
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Hand Off", "HandOffTask", "TaskManager", new { uxTaskId = resumeTaskId }, new { @class = "btn btn-success" })
+            &nbsp;&nbsp;&nbsp;
+            Claims Dept
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Hand Off", "HandOffTask", "TaskManager", new { uxTaskId = resumeTaskId }, new { @class = "btn btn-success" })
+            &nbsp;&nbsp;&nbsp;
+            Admin Queue
+        </td>
+    </tr>
+</table>
+<br />
+
+

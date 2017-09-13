@@ -1,0 +1,74 @@
+﻿@model WebUXv2.Models.UxTask
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UxTask</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentLuTask.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentLuTask.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentLuTask.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentLuTask.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientRef)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientRef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

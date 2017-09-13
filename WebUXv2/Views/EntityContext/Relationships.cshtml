@@ -1,0 +1,38 @@
+﻿@using WebUXv2.Components
+@using System.Collections.Generic;
+@model IEnumerable<WebUXv2.Components.IEntityContextRelationship>
+
+@{
+    ViewBag.Title = "Entity Contexts";
+}
+
+<h2>Entity Contexts</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Context1
+        </th>
+        <th>
+           Relationship
+        </th>
+        <th>
+            Context2
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.EntityContext1.ToString(), "DirectRelationships", new { key = EntityContextManager.ContextKey(item.EntityContext1) }) |
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink(item.EntityContext2.ToString(), "DirectRelationships", new { key = EntityContextManager.ContextKey(item.EntityContext2) }) |
+        </td>
+    </tr>
+}
+
+</table>

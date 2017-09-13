@@ -1,0 +1,30 @@
+﻿@model IEnumerable<IEntityContext>
+    
+@using WebUXv2.Components
+@{
+    string selectController = ViewBag.SelectController;
+    string selectAction = ViewBag.SelectAction;
+    //int uxTaskId;
+    //int.TryParse(Request.RequestContext.RouteData.Values["uxTaskId"].ToString(), out uxTaskId);
+    var uxTaskId = Convert.ToInt32(Request.QueryString["uxTaskId"]);
+
+    if (Model.Any())
+    {
+        <h3>Recent Customers</h3>
+    }
+}
+
+<table>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Description, selectAction, selectController, new { uxTaskId = uxTaskId, customerId = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+
+

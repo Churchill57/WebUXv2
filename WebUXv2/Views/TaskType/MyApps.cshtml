@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WebUXv2.Models.TaskType>
+
+<h2>My Apps</h2>
+
+<p>
+    @Html.ActionLink("+Add App", "SearchAndRunApps","TaskType")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RootComponentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SearchTags)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, "StartTaskType", "TaskManager", new { taskTypeId = item.Id }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RootComponentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SearchTags)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", "TaskTypeCrud", new {id = item.Id}, null) |
+            @Html.ActionLink("Delete", "Delete", "TaskTypeCrud", new {id = item.Id}, null)
+        </td>
+    </tr>
+}
+
+</table>

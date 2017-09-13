@@ -1,0 +1,83 @@
+﻿@using WebUXv2.LogicalUnits.TaskManager
+@model IEnumerable<WebUXv2.Models.TaskType>
+    
+@{
+    var uxTaskId =  ViewBag.uxTaskId;
+    string host = ViewBag.Host;
+}
+
+<h2>
+    @Html.ActionLink("Add App", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = $"SearchAndAdd2ndApp||{host}" }, new {@class="btn btn-warning"})
+</h2>
+<br/>
+
+@Html.Hidden("forceContextSearch", false)
+
+@{
+    int keyCode = (int)'x' - 32;
+}
+
+<script>
+    $(document)
+        .ready(function() {
+            $(window)
+                .keydown(function(evt) {
+                    if (evt.which == @keyCode) {
+                        $("#forceContextSearch").val(true);
+                        //alert("down");
+                    }
+                });
+            $(window)
+                .keyup(function(evt) {
+                    if (evt.which == @keyCode) {
+                        $("#forceContextSearch").val(false);
+                        //alert("up");
+                    }
+                });
+            $("[name=app]")
+                .click(function(evt) {
+                    evt.preventDefault();
+                    //alert(evt.target.href + "&forceContextSearch=" + $("#forceContextSearch").val());
+                    location.href = evt.target.href + "&forceContextSearch=" + $("#forceContextSearch").val();
+                });
+        });
+</script>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            App
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RootComponentName)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.SearchTags)
+        </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RootComponentName)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.SearchTags)
+            </td>*@
+            <td>
+                @Html.ActionLink("Amend", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "AmendTaskType|" + item.Id }, new { @class = "btn btn-warning" })
+                &nbsp;&nbsp;
+                @Html.ActionLink("Remove", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "DeleteTaskType|" + item.Id }, new { @class = "btn btn-warning" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink($"Resume - {host}", "Done", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-success" })
+
+

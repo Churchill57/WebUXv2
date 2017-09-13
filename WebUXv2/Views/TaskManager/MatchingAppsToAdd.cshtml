@@ -1,0 +1,38 @@
+﻿@using WebUXv2.LogicalUnits.TaskManager
+@model IEnumerable<WebUXv2.Models.TaskType>
+    
+@{
+    var appHost = ViewBag.AppHost;
+
+    if (Model.Any())
+    {
+        <table class="table table-striped table-hover">
+
+            <tr>
+                <th>
+                    App
+                </th>
+                <th>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Add", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = $"AddTaskType|{item.RootComponentName}|{appHost}" }, new { @class = "btn btn-success" })
+                        &nbsp;&nbsp;
+                        @Html.DisplayFor(modelItem => item.Name)
+                        &nbsp;(@Html.DisplayFor(modelItem => item.CriteriaMatchScore))
+                    </td>
+                </tr>
+            }
+
+        </table>    }
+    else
+    {
+        <p>No Apps found matching criteria</p>
+    }
+
+
+}

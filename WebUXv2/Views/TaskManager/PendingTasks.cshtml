@@ -1,0 +1,65 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.LogicalUnits.TaskManager
+@using WebUXv2.Models
+@model IEnumerable<WebUXv2.Models.LuTask>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            Parent @Html.DisplayNameFor(model => model.ParentLuTask.Id)
+        </th>
+        <th>
+            Parent @Html.DisplayNameFor(model => model.ParentLuTask.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientRef)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentLuTask.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentLuTask.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientRef)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+        </tr>
+    }
+
+</table>

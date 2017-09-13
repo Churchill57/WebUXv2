@@ -1,0 +1,34 @@
+﻿@model IEnumerable<WebUXv2.Models.TaskType>
+    
+@{
+    if (Model.Any())
+    {
+        <table class="table">
+
+            <tr>
+                <th>
+                    Run App
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.Name, "StartTask", "TaskManager", new { componentName = item.RootComponentName }, null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("+Add to My Apps", "AddToMyApps", "TaskType", new { componentName = item.RootComponentName }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>    }
+    else
+    {
+        <p>No Apps found matching criteria</p>
+    }
+
+
+}

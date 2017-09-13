@@ -1,0 +1,105 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.UserExperiences.Customer
+@model IEnumerable<WebUXv2.Models.Customer>
+
+@{
+    bool showBackButton = ViewBag.ShowBackButton;
+    bool backButtonAsLink = ViewBag.BackButtonAsLink;
+    string backButtonText = ViewBag.BackButtonText;
+    string selectButtonText = ViewBag.SelectButtonText;
+    bool showPreviewLink = ViewBag.ShowPreviewLink;
+    var uxTaskId = ViewBag.uxTaskId;
+
+    var ctxMan = SingletonService.Instance.EntityContextManager;
+    var ctx = ctxMan.GetCurrentContext;
+    ViewBag.Id = 0;
+    if (ctx != null)
+    {
+        if (String.Equals(ctx.Name, "customer", StringComparison.InvariantCultureIgnoreCase))
+        {
+            ViewBag.Id = ctx.Id;
+        }
+    }
+
+
+}
+
+@if (showBackButton && !backButtonAsLink)
+{
+    {
+        @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+        @:&nbsp; &nbsp;
+    }
+}
+@*<button onClick="window.location.reload()" class="btn btn-warning">Refresh</button>*@
+@Html.ActionLink("Refresh", "ResumeTask", "TaskManager", new { componentTaskId = uxTaskId }, new { @class = "btn btn-warning" })
+@if (showBackButton && backButtonAsLink)
+{
+    @:&nbsp; &nbsp;
+    @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, null)
+}
+
+<br />
+<br />
+
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NINO)
+        </th>
+        <th></th>
+    </tr>
+
+    @{
+
+        foreach (var item in Model)
+        {
+            var trClass = (item.Id == ViewBag.Id) ? "success" : "";
+            <tr class="@trClass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cargo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NINO)
+                </td>
+                <td>
+                    @Html.ActionLink(selectButtonText, "SelectedCustomerFromSearchResult", "Customer", new { uxTaskId = uxTaskId, customerId = item.Id, fullName = item.FullName }, new { @class = "btn btn-success" })
+                    @if (showPreviewLink)
+                    {
+                        <span>&nbsp;&nbsp;</span>
+                        @Html.ActionLink("Preview", "RunTask", "TaskManager", new {componentName = typeof(UxPreviewCustomer).Name, customerId = item.Id}, new {@class = "btn btn-warning"})
+                    }
+
+                </td>
+            </tr>
+        }
+    }
+
+</table>

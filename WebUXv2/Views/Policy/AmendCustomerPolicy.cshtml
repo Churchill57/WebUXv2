@@ -1,0 +1,135 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.LogicalUnits.Customer
+@using WebUXv2.UserExperiences.Customer
+@model WebUXv2.Models.PAPolicy
+
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+    bool showBackButton = ViewBag.ShowBackButton;
+    string backButtonText = ViewBag.BackButtonText;
+
+    var tm = new TaskManager();
+    var parentId = tm.GetParentLauncherRootComponentTaskId(uxTaskId);
+
+    var annuitantUserMessage = $"Change annuitant {Model.Annuitant.FullName} on policy {Model.Description}";
+
+    var dependantButtonText = "Add";
+    var showDependantRemoveButton = false;
+    var dependantUserMessage = $"Add dependant to policy {Model.Description}";
+    if (Model.DependantId.HasValue)
+    {
+        dependantUserMessage = $"Change dependant {Model.Dependant.FullName} on policy {Model.Description}";
+        dependantButtonText = "Change";
+        showDependantRemoveButton = true;
+    }
+
+    var beneficiaryButtonText = "Add";
+    var showBeneficiaryRemoveButton = false;
+    var beneficiaryUserMessage = $"Add beneficiary to policy {Model.Description}";
+    if (Model.BeneficiaryId.HasValue)
+    {
+        beneficiaryUserMessage = $"Change beneficiary {Model.Beneficiary.FullName} on policy {Model.Description}";
+        beneficiaryButtonText = "Change";
+        showBeneficiaryRemoveButton = true;
+    }
+
+}
+
+<script>
+    $(document)
+    .ready(function () {
+        $(".postRedirect")
+            .click(function (evt) {
+                var a = evt.target;
+                evt.preventDefault();
+                var redirectUrl = $('<input>')
+                    .attr('type', 'hidden')
+                    .attr('name', "redirectUrl")
+                    .val(a.href);
+                $("form").append(redirectUrl);
+                $("form").submit();
+            });
+    });
+</script>
+
+<br/>
+@using (Html.BeginForm())
+{
+   
+   @*@Html.AntiForgeryToken()*@
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AnnuitantId, "Annuitant", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.AnnuitantId)
+                @Html.EditorFor(model => model.Annuitant.FullName, new { htmlAttributes = new { @class = "form-control", style = "display:inline", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.AnnuitantId, "", new { @class = "text-danger" })
+                @Html.ActionLink("Change", "RunTask", "TaskManager", new { componentName = typeof(LuFindCustomer).Name, UserMessage = annuitantUserMessage, showSearchBackButton = true, returnTaskId = uxTaskId, returnTaskRef = "annuitant", parentTaskId = parentId }, new { @class = "btn btn-warning postRedirect" })
+                @*@Html.ActionLink("New", "RunTask", "TaskManager", new { componentName = typeof(UxAddCustomer).Name, UserMessage = annuitantUserMessage, returnTaskId = uxTaskId, returnTaskRef = "annuitant", parentTaskId = parentId }, new { @class = "btn btn-warning postRedirect" })*@
+                &nbsp;
+                @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerId = Model.AnnuitantId, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Premium, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Premium, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Premium, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DependantId, "Dependant", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.DependantId)
+                @Html.EditorFor(model => model.Dependant.FullName, new { htmlAttributes = new { @class = "form-control", style = "display:inline", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.DependantId, "", new { @class = "text-danger" })
+                @Html.ActionLink(dependantButtonText, "RunTask", "TaskManager", new { componentName = typeof(LuFindCustomer).Name, UserMessage = dependantUserMessage, showSearchBackButton = true, returnTaskId = uxTaskId, returnTaskRef = "dependant", parentTaskId = parentId }, new { @class = "btn btn-warning" })
+                @if (showDependantRemoveButton)
+                {
+                    @:&nbsp;
+                    @Html.ActionLink("Remove", "ResumeTask", "TaskManager", new { componentTaskId = uxTaskId, command = "ClearDep" }, new { @class = "btn btn-warning postRedirect" })
+                    @:&nbsp;
+                    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerId = Model.DependantId, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
+
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BeneficiaryId, "Beneficiary", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.BeneficiaryId)
+                @Html.EditorFor(model => model.Beneficiary.FullName, new { htmlAttributes = new { @class = "form-control", style = "display:inline", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.BeneficiaryId, "", new { @class = "text-danger" })
+                @Html.ActionLink(beneficiaryButtonText, "RunTask", "TaskManager", new { componentName = typeof(LuFindCustomer).Name, UserMessage = beneficiaryUserMessage, showSearchBackButton = true, returnTaskId = uxTaskId, returnTaskRef = "beneficiary", parentTaskId = parentId }, new { @class = "btn btn-warning postRedirect" })
+                @if (showBeneficiaryRemoveButton)
+                {
+                    @:&nbsp;
+                    @Html.ActionLink("Remove", "ResumeTask", "TaskManager", new { componentTaskId = uxTaskId, command = "ClearBen" }, new { @class = "btn btn-warning postRedirect" })
+                    @:&nbsp;
+                    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerId = Model.BeneficiaryId, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
+
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-8">
+                @if (showBackButton)
+                {
+                    @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+                    @:&nbsp; &nbsp;
+                }
+                <input type="submit" value="Submit" class="btn btn-success"/>
+                &nbsp;&nbsp;
+            </div>
+        </div>
+
+    </div>
+}

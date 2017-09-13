@@ -1,0 +1,37 @@
+﻿@model string
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+    string searchText = Model;
+
+    AjaxOptions options = new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "searchResults",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "loadingMsg"
+    };
+}
+
+<script>
+    // Reinstate last search results.
+    $(document).ready(function () {
+        if ($("#searchText").val().length > 0) $("#appSearchForm").submit();
+    });
+</script>
+
+@using (Ajax.BeginForm("SearchMatchingApps","TaskType", new {uxTaskId = uxTaskId}, options, new { id = "appSearchForm" }))
+{
+    <div>
+        @Html.TextBox("searchText", searchText)
+        <input type="submit" value="Search" class="btn btn-success" />
+        <span id="loadingMsg" style="color:red;width:400px;background-color:yellow;font-size:larger;display:none;position:absolute;">Searching available apps. Please wait ....</span>
+
+    </div>
+}
+
+<div id="searchResults">
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

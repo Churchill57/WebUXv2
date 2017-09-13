@@ -1,0 +1,96 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.UserExperiences.Customer
+@model WebUXv2.Models.Customer
+
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+    bool showBackButton = ViewBag.ShowBackButton;
+    string backButtonText = ViewBag.BackButtonText;
+
+    var tm = new TaskManager();
+    var ultimateParentId = tm.GetUltimateParentLogicalUnitTask(uxTaskId).Id;
+
+}
+
+<div class="row">
+    <div class="col-md-7 margin-top-20">
+
+        @using (Html.BeginForm())
+        {
+           @*@Html.AntiForgeryToken()*@
+
+            <div class="form-horizontal">
+
+                <h3>Amended Details</h3>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NINO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.NINO, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NINO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-8">
+                        @if (showBackButton)
+                        {
+                            @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+                            <span>&nbsp; &nbsp;</span>
+                        }
+                        <input type="submit" value="Submit" class="btn btn-success" />
+                        &nbsp;&nbsp;
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="col-md-5 margin-top-20">
+
+        @{Html.RenderAction("SecondaryTasks", "TaskManager", new { uxTaskId = uxTaskId });}
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

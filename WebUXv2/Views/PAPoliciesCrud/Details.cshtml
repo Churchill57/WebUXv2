@@ -1,0 +1,50 @@
+﻿@model WebUXv2.Models.PAPolicy
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PA Policy</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Premium)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Premium)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Annuitant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Annuitant.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dependant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dependant.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Beneficiary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Beneficiary.FullName)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

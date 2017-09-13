@@ -1,0 +1,24 @@
+﻿@using WebUXv2.Components
+@model IEnumerable<WebUXv2.Components.IEntityContext>
+
+@{
+    ViewBag.Title = "Entity Contexts";
+}
+
+<h2>Entity Contexts</h2>
+
+<p>
+    @Html.ActionLink("Delete All", "DeleteAllContexts", "EntityContext", null, new { @class = "btn btn-default" })
+</p>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.ToString(), "DirectRelationships", new { key = EntityContextManager.ContextKey(item)}, item.IsCurrent ? new {style = "color:green"} : null)
+        </td>
+    </tr>
+}
+
+</table>

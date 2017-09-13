@@ -1,0 +1,66 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.LogicalUnits.TaskManager
+@model IEnumerable<WebUXv2.Models.TaskType>
+
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+    var hideInstructions = ViewBag.HideInstructions;
+    var tm = new TaskManager();
+    var parentId = tm.GetParentLauncherRootComponentTaskId(uxTaskId);
+
+}
+
+<script>
+    $(document)
+        .ready(function() {
+            $("#manage")
+                .click(function(evt) {
+                    evt.preventDefault();
+                    //alert(evt.target.href + "&hideInstructions=" + $("#hideInstructions")[0].checked);
+                    //alert($("#hideInstructions")[0].checked);
+                    location.href = evt.target.href + "&hideInstructions=" + $("#hideInstructions")[0].checked;
+                });
+        });
+</script>
+
+
+<h3>
+    Secondary Tasks
+    &nbsp;&nbsp;
+    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = $"My2ndApps|{uxTaskId}" }, new { id = "manage", @class= "btn btn-default" })
+</h3>
+
+
+@{
+    if (!hideInstructions && !Model.Any())
+    {
+        <div class="text-info">
+            <h4>
+                You can choose from all the available Apps any that you would frequently find useful when undertaking the current task - @{Html.RenderAction("GetExecutingUserExperienceTitle", "TaskManager");}.
+            </h4>
+            <h4>@Html.EditorFor(model => hideInstructions)&nbsp;Ok, Got It</h4>
+        </div>
+    }
+    else
+    {
+        ;@Html.HiddenFor(model => hideInstructions)
+    }
+}
+
+
+    @foreach (var item in Model)
+    {
+        <p>
+            @if (string.IsNullOrEmpty(item.SecondaryAction))
+            {
+                @Html.ActionLink(item.Name, "RunTask", "TaskManager", new { componentName = item.RootComponentName, parentTaskId = parentId, returnTaskId = uxTaskId }, null)
+            }
+            else
+            {
+                @Html.Action(item.SecondaryAction, item.SecondaryController, new {uxTaskId = uxTaskId, componentName = item.Name, rootComponentName = item.RootComponentName, parentTaskId = parentId, returnTaskId = uxTaskId })
+            }
+        </p>
+    }
+
+
+

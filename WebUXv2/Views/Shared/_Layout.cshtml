@@ -1,0 +1,102 @@
+﻿@using WebUXv2.Components
+@using WebUXv2.LogicalUnits.TaskManager
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @{
+        int ultimateParentId = 0;
+        string ultimateParentTitle = null;
+
+        int uxTaskId;
+        int.TryParse(Request.QueryString["uxTaskId"], out uxTaskId);
+        if (uxTaskId > 0)
+        {
+            var tm = new TaskManager();
+            ultimateParentId = tm.GetUltimateParentLogicalUnitId(uxTaskId);
+            ultimateParentTitle = tm.GetUltimateParentLogicalUnitTitle(uxTaskId);
+        }
+
+        var userMessage = SingletonService.Instance.UserMessage;
+        SingletonService.Instance.UserMessage = string.Empty;
+    }
+
+    <meta name="description" content="The description of my page" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("Just Not IRIS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                @Html.ActionLink("JUST DO IT", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "SearchAndRunApps" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("My Apps", "MyApps", "TaskManager", new { area = "" }, new { @class = "navbar-brand" })</li>*@
+                    <li>@Html.ActionLink("My Apps", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "MyApps" }, null)</li>
+                    <li>&nbsp;&nbsp;</li>
+                    <li>@Html.ActionLink("Active", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "ActiveTasks" }, null)</li>
+                    <li>@Html.ActionLink("Completed", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "CompletedTasks" }, null)</li>
+                    <li>&nbsp;&nbsp;</li>
+                    <li>@Html.ActionLink("WIP(LUs)", "Index", "LuTask")</li>
+                    <li>@Html.ActionLink("WIP(UXs)", "Index", "UxTask")</li>
+                    <li>@Html.ActionLink("Contexts", "Contexts", "EntityContext")</li>
+                    <li>&nbsp;&nbsp;</li>
+                    <li>@Html.ActionLink("Customers", "Index", "CustomerCrud")</li>
+                    @*<li>@Html.ActionLink("Addresses", "Index", "PropertyAddressesCrud")</li>*@
+                    <li>&nbsp;&nbsp;</li>
+                    <li>@Html.ActionLink("Policies", "Index", "PAPoliciesCrud")</li>
+                    @*<li>@Html.ActionLink("2ndLineQ", "Index", "SecondLineDefenceQuestionsCrud")</li>*@
+                    @*<li>@Html.ActionLink("Tasks", "Index", "TaskTypeCrud")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+<div class="container body-content">
+    <h5>
+        @{ Html.RenderAction("GetUserExperienceTaskBreadcrumbs", "TaskManager");}
+    </h5>
+        @if (!String.IsNullOrEmpty(ultimateParentTitle))
+        {
+            <h3>
+                @ultimateParentTitle
+                <span>&nbsp;&nbsp;</span>
+                @*@Html.ActionLink("Suspend", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "ActiveTasks" }, new { @class = "btn btn-default" })*@
+                @Html.ActionLink("Suspend", "SuspendUxTask", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-default" })
+                <span>&nbsp;&nbsp;</span>
+                @Html.ActionLink("Handoff", "ConfirmHandOff", "TaskManager", new { resumeTaskId = uxTaskId, returnUrl = Request.Url.AbsoluteUri }, new { @class = "btn btn-default" })
+                <span>&nbsp;&nbsp;</span>
+                @Html.ActionLink("Abort", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = $"AbortTask|{ultimateParentId}" }, new { @class = "btn btn-default" })
+            </h3>
+        }
+    <h4 class="text-danger">@userMessage</h4>
+    <h2>
+        @{if (!Request.Url.AbsolutePath.Contains("AccessDenied")) // Ugly kludge.
+            {
+                Html.RenderAction("GetExecutingUserExperienceTitle", "TaskManager");
+            }
+        }
+    </h2>
+    @RenderBody()
+    <hr/>
+    <footer>
+        @*@{ Html.RenderAction("GetUserExperienceTaskBreadcrumbs", "TaskManager");}*@
+    </footer>
+</div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

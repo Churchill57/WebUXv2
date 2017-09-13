@@ -1,0 +1,75 @@
+﻿@model IEnumerable<WebUXv2.Models.SecondLineDefenceQuestion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Second Line Defence Questions</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateAsked)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BenefitOption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactMethod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PensionsGuidance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegulatedAdvice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RiskWarning)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScriptName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateAsked)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BenefitOption)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactMethod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PensionsGuidance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegulatedAdvice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RiskWarning)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScriptName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

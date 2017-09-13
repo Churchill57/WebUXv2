@@ -1,0 +1,11 @@
+﻿
+@*<input type="text" id="searchText" name="searchText"/>
+
+<script>
+    $(document).ready(
+        function () {
+            $('#searchText').autocomplete({source: '@Url.Action("AutoCompleteTaskType","TaskManager")', minLength: 1});
+        }
+    )
+</script>*@
+

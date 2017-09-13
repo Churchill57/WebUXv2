@@ -1,0 +1,26 @@
+﻿@using WebUXv2.Components
+@model IEnumerable<WebUXv2.Models.SecondLineDefenceQuestion>
+
+@{
+    string componentName = ViewBag.ComponentName;
+    string rootComponentName = ViewBag.RootComponentName;
+    var firstQuestion = Model.FirstOrDefault();
+
+    var uxTaskId = Convert.ToInt32(Request.QueryString["uxTaskId"]);
+
+    var tm = new TaskManager();
+    var parentId = tm.GetParentLauncherRootComponentTaskId(uxTaskId);
+
+}
+Second line defence questions
+@Html.ActionLink("+Add", "RunTask", "TaskManager", new { componentName = rootComponentName, returnTaskId = uxTaskId, parentTaskId = parentId }, null)
+@if (firstQuestion != null)
+{
+    <br />
+    @Html.ActionLink(firstQuestion.Description, "Edit", "SecondLineDefenceQuestionsCrud", new { id = firstQuestion.Id }, null)
+}
+
+
+
+
+

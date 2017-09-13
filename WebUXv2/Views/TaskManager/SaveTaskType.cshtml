@@ -1,0 +1,115 @@
+﻿@model WebUXv2.Models.TaskType
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+    bool showBackButton = ViewBag.ShowBackButton;
+    string backButtonText = ViewBag.BackButtonText;
+    string doneButtonText = ViewBag.DoneButtonText;
+}
+
+<br/>
+
+@using (Html.BeginForm())
+{
+   @*@Html.AntiForgeryToken()*@
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RootComponentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RootComponentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RootComponentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SearchTags, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SearchTags, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SearchTags, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        @Html.HiddenFor(model => model.Id)
+
+        @Html.HiddenFor(model => model.Host)
+
+        
+        @{
+            if (Model.TaskInputs != null && Model.TaskInputs.Any())
+            {
+                <h4>Input Parameters</h4>
+
+                <table class="table">
+                    @{
+                        var taskInputs = Model.TaskInputs.ToArray();
+                        var i = 0;
+                    }
+                    @{
+                        foreach (var input in Model.TaskInputs)
+                        {
+                            <tr>
+                                <td class="col-md-2">
+                                    <div>
+                                        @Html.HiddenFor(model => taskInputs[i].Id)
+                                        @Html.HiddenFor(model => taskInputs[i].TaskTypeId)
+
+                                        @Html.DisplayFor(model => taskInputs[i].Name)
+                                        @Html.HiddenFor(model => taskInputs[i].Name, new {htmlAttributes = new {@class = "form-control"}})
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div>
+                                        @Html.EditorFor(model => taskInputs[i].Value, new {htmlAttributes = new {@class = "form-control"}})
+                                        @Html.ValidationMessageFor(model => input.Value, "", new {@class = "text-danger"})
+                                    </div>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </table>
+            }
+
+        }
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-8">
+            @if (showBackButton)
+            {
+                @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+                <span>&nbsp; &nbsp;</span>
+            }
+            <input type="submit" value="@doneButtonText" class="btn btn-success" />
+            &nbsp;&nbsp;
+        </div>
+    </div>
+
+
+    @*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Add" class="btn btn-default" />
+        </div>
+    </div>*@
+
+}
+
+<br/>
+<div>
+    @*@Html.ActionLink("Back to List", "Index")*@
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

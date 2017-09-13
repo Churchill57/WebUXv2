@@ -1,0 +1,50 @@
+﻿@model WebUXv2.Models.PAPolicySearchCriteria
+
+@{
+    var uxTaskId = ViewBag.uxTaskId;
+    bool showBackButton = ViewBag.ShowBackButton;
+    string backButtonText = ViewBag.BackButtonText;
+    string searchButtonText = ViewBag.SearchButtonText;
+}
+
+<div class="row">
+    <div class="col-md-7 margin-top-20">
+
+        @using (Html.BeginForm())
+        {
+           @*@Html.AntiForgeryToken()*@
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                @if (showBackButton)
+                {
+                    @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+                    <span>&nbsp; &nbsp;</span>
+                }
+                <input type="submit" value="@searchButtonText" class="btn btn-success" />
+                <br />
+                <br />
+                <br />
+
+            </div>
+        }
+
+
+    </div>
+
+    <div class="col-md-5 margin-top-20">
+        @{Html.RenderAction("SecondaryTasks", "TaskManager", new { uxTaskId = uxTaskId });}
+    </div>
+
+</div>

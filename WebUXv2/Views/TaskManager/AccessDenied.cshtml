@@ -1,0 +1,47 @@
+﻿@using WebUXv2.LogicalUnits.TaskManager
+
+@{
+    var nextUrl = ViewBag.NextUrl;
+    int? nextTaskId = ViewBag.NextTaskId;
+    var returnUrl = ViewBag.ReturnUrl;
+    var loginReturnUrl = ViewBag.LoginReturnUrl;
+}
+
+<h2>Access Denied</h2>
+
+<h3>
+    You tried to perform an operation which requires specific user privileges.
+</h3>
+<br />
+
+<a href="@returnUrl" class="btn btn-danger">Back</a>
+
+<br />
+<br />
+<br />
+<p>
+    You can hand off the task to a user who has the necessary privileges.
+</p>
+@*<a href="@returnUrl" class="btn btn-success">Hand Off</a>*@
+@*@Html.ActionLink("Handoff", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "ActiveTasks" }, new { @class = "btn btn-success" })*@
+@Html.ActionLink("Handoff", "HandOffTask", "TaskManager", new { returnUrl = Request.Url.AbsoluteUri }, new { @class = "btn btn-success" })
+
+
+
+
+<br />
+<br />
+<br />
+@{
+    if (!string.IsNullOrEmpty(nextUrl))
+    {
+        <p>Alternatively, you can try to continue. But you must login with a user account which has the necessary privileges.</p>
+        <a href="@nextUrl" class="btn btn-warning">Continue</a>
+    }
+    else if (nextTaskId.HasValue)
+    {
+        <p>Alternatively, you can try to continue. But you must login with a user account which has the necessary privileges.</p>
+        @Html.ActionLink("Continue", "Login", "Account", new { ReturnUrl = loginReturnUrl }, new { @class = "btn btn-warning" })
+    }
+}
+

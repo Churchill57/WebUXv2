@@ -1,0 +1,91 @@
+﻿@model WebUXv2.Models.Customer
+
+@{
+    bool showBackButton = ViewBag.ShowBackButton;
+    bool previewDifferentCustomer = ViewBag.PreviewDifferentCustomer;
+    string backButtonText = ViewBag.BackButtonText;
+    bool backButtonAsLink = ViewBag.BackButtonAsLink;
+    string doneButtonText = ViewBag.DoneButtonText;
+    var uxTaskId = ViewBag.uxTaskId;
+}
+
+@{
+    if (previewDifferentCustomer)
+    {
+        @Html.ActionLink("Preview a different customer", "ResetCustomerContextInput", new { uxTaskId = uxTaskId })
+    }
+}
+
+@if (showBackButton && backButtonAsLink)
+{
+    @:&nbsp; &nbsp;
+    @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, null)
+}
+
+
+<div>
+    <div class="row">
+        <div class="col-md-6">
+
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DOB)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DOB)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NINO)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NINO)
+                </dd>
+
+            </dl>
+            
+            @if (showBackButton && !backButtonAsLink)
+            {
+                {
+                    @Html.ActionLink(backButtonText, "Back", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-danger" })
+                    @:&nbsp; &nbsp;
+                }
+            }
+
+            @Html.ActionLink(doneButtonText, "Done", "TaskManager", new { uxTaskId = uxTaskId }, new { @class = "btn btn-success" })
+
+        </div>
+
+        <div class="col-md-6">
+        </div>
+
+    </div>
+
+</div>

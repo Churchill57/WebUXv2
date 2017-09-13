@@ -1,0 +1,45 @@
+﻿@model IEnumerable<IEntityContext>
+    
+@using WebUXv2.Components
+@{
+    string caption = ViewBag.Caption;
+    string contextName = ViewBag.ContextName;
+    string contextIdPropertyName = $"{contextName}Id";
+    string selectController = ViewBag.SelectController;
+    string selectAction = ViewBag.SelectAction;
+    var uxTaskId = Convert.ToInt32(Request.QueryString["uxTaskId"]);
+
+    if (Model.Any())
+    {
+        <h3>@caption</h3>
+    }
+}
+
+<script>
+    $(document)
+        .ready(function() {
+            $(".appendContextId")
+                .click(function(evt) {
+                    evt.preventDefault();
+                    var contextId = evt.target.getAttribute("data-contextId");
+                    //alert(evt.target.href + "&@contextIdPropertyName=" + contextId);
+                    location.href = evt.target.href + "&@contextIdPropertyName=" + contextId;
+                });
+        });
+</script>
+
+
+<table>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Description, selectAction, selectController, new { uxTaskId = uxTaskId}, new { @class = "appendContextId", data_contextId = item.Id.ToString() })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
