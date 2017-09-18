@@ -24,23 +24,23 @@ namespace WebUXv2Tests.Controllers
             _target = new CustomerController(_tm, _tmc);
         }
 
-        [TestMethod()]
-        public void SwitchToAdvancedSearchEventRaisedFromBasicSearch()
-        {
-            var dontcare = 0;
-            _tm.GetUserExperience(dontcare).ReturnsForAnyArgs(x => new UxCustomerSearchCriteria());
-            _target.SwitchToAdvancedSearch(dontcare);
-            _tmc.Received().RedirectAfterComponentEvent(Arg.Is<CustomerSearchSwitchAdvancedEventArgs>(e => e.AdvancedSearch == true));
-        }
+        //[TestMethod()]
+        //public void SwitchToAdvancedSearchEventRaisedFromBasicSearch()
+        //{
+        //    var dontcare = 0;
+        //    _tm.GetUserExperience(dontcare).ReturnsForAnyArgs(x => new UxCustomerSearchCriteria());
+        //    _target.SwitchToAdvancedSearch(dontcare);
+        //    _tmc.Received().RedirectAfterComponentEvent(Arg.Is<CustomerSearchSwitchAdvancedEventArgs>(e => e.AdvancedSearch == true));
+        //}
 
-        [TestMethod()]
-        public void SwitchToBasicSearchEventRaisedFromAdvancedSearch()
-        {
-            var dontcare = 0;
-            _tm.GetUserExperience(dontcare).ReturnsForAnyArgs(x => new UxCustomerAdvSearchCriteria());
-            _target.SwitchToBasicSearch(dontcare);
-            _tmc.Received().RedirectAfterComponentEvent(Arg.Is<CustomerSearchSwitchAdvancedEventArgs>(e => e.AdvancedSearch == false));
-        }
+        //[TestMethod()]
+        //public void SwitchToBasicSearchEventRaisedFromAdvancedSearch()
+        //{
+        //    var dontcare = 0;
+        //    _tm.GetUserExperience(dontcare).ReturnsForAnyArgs(x => new UxCustomerAdvSearchCriteria());
+        //    _target.SwitchToBasicSearch(dontcare);
+        //    _tmc.Received().RedirectAfterComponentEvent(Arg.Is<CustomerSearchSwitchAdvancedEventArgs>(e => e.AdvancedSearch == false));
+        //}
 
         //[TestMethod()]
         //public void SwitchToBasicSearchTest()
