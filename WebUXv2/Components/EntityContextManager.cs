@@ -53,6 +53,7 @@ namespace WebUXv2.Components
         }
         public static string ContextKey(IEntityContext entityContext)
         {
+            if (entityContext == null) return null;
             return ContextKey(entityContext.Id, entityContext.Name);
         }
         public static string DirectRelationshipKey(string name, IEntityContext entityContext)

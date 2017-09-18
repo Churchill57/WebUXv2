@@ -15,7 +15,7 @@ namespace WebUXv2.UserExperiences.Customer
     [Authorize(Roles = "Admin")] // Also use Authorise attribute on AmendCustomer action method in CustomerController
     [ComponentTitle("Amend Customer Details")]
     [PrimaryActionController("AmendCustomer", "Customer")]
-    ////[LaunchableComponent("temporary")]
+    [LaunchableComponent("temporary")]
     public class UxAmendCustomer : UserExperience
     {
 
@@ -23,6 +23,7 @@ namespace WebUXv2.UserExperiences.Customer
         [ComponentState]
         public EntityContext CustomerContext { get; set; }
         //public int? CustomerId { get; set; }
+        //TODO: Use IEntityContext instead of concrete type EntityContext for context properties. Change task manager code accordingly which assigns values to properties of this type.
 
         [ComponentState]
         public bool ShowBackButton { get; set; } = true;

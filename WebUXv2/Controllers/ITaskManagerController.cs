@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using WebUXv2.Components;
@@ -9,6 +10,7 @@ namespace WebUXv2.Controllers
     {
         ControllerContext ControllerContext { get; set; }
         ActionResult Done(int uxTaskId);
+        Task<ActionResult> DoneAsync(int uxTaskId);
         ActionResult Back(int uxTaskId);
         ActionResult DeleteAllTasks();
         //UserExperience GetUserExperience(LogicalUnit parentLu, string uxTypeName, string clientRef);

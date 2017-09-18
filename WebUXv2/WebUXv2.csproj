@@ -287,6 +287,10 @@
     <Compile Include="UserExperiences\TaskManager\UxSearchAndRunApps.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-WebUXv2-20170519120948.mdf" />
+    <Content Include="App_Data\aspnet-WebUXv2-20170519120948_log.ldf">
+      <DependentUpon>aspnet-WebUXv2-20170519120948.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\CustomerDbContext-20170519121101.mdf" />
     <Content Include="App_Data\CustomerDbContext-20170519121101_log.ldf">
       <DependentUpon>CustomerDbContext-20170519121101.mdf</DependentUpon>

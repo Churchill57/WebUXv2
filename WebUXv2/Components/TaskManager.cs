@@ -8,6 +8,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Newtonsoft.Json;
@@ -166,6 +167,7 @@ namespace WebUXv2.Components
                     lu.TaskId = luTask.Id;
                     lu.ClientRef = luTask.ClientRef;
                     lu.State = JsonToObject<Dictionary<string, object>>(luTask.State);
+                    //TODO: EntityContext properties .Description may have changed since lu was last hydrated & run. Update these automatically.
                     lu.LastSetState = luTask.State;
                     lu.Status = luTask.Status;
                     lu.UserName = luTask.UserName;
@@ -258,6 +260,12 @@ namespace WebUXv2.Components
             return GetUserExperience(uxTask);
         }
 
+        public async Task<UserExperience> GetUserExperienceAsync(int id)
+        {
+            var uxTask = await _taskDbContext.UxTasks.FirstOrDefaultAsync(x => x.Id == id);
+            return GetUserExperience(uxTask);
+        }
+
         public UserExperience GetUserExperience(UxTask uxTask)
         {
             if (uxTask != null)
@@ -268,6 +276,7 @@ namespace WebUXv2.Components
                     ux.TaskId = uxTask.Id;
                     ux.ClientRef = uxTask.ClientRef;
                     ux.State = JsonToObject<Dictionary<string, object>>(uxTask.State);
+                    //TODO: EntityContext properties .Description may have changed since ux was last hydrated & run. Update these automatically.
                     ux.LastSetState = uxTask.State;
                     return ux;
                 }
@@ -312,7 +321,8 @@ namespace WebUXv2.Components
         public T JsonToObject<T>(string jsonData)
         {
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Objects};
-            return JsonConvert.DeserializeObject<T>(jsonData, settings);
+            var obj = JsonConvert.DeserializeObject<T>(jsonData, settings);
+            return obj;
 
             //MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonData));
             //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));

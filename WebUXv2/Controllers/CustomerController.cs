@@ -303,11 +303,20 @@ namespace WebUXv2.Controllers
             if (uxManageCustomer == null) return HttpNotFound($"User Experience with id {uxTaskId} not found.");
 
             if (uxManageCustomer.CustomerContext==null) return HttpNotFound($"User Experience with id {uxTaskId} has a null customer context.");
-            //if (!uxManageCustomer.CustomerId.HasValue) return HttpNotFound($"User Experience with id {uxTaskId} has a null customer id.");
 
-            var customerId = uxManageCustomer.CustomerContext.Id;
+            // Customer context description may have changed since uxManageCustomer was last hydrated & run
+            //TODO: Consider doing this automatically whenever any component is hydrated and has entity context properties which may have out of date descriptions.
+            var uxManageCustomerContextKey = EntityContextManager.ContextKey(uxManageCustomer.CustomerContext);
+            var cm = SingletonService.Instance.EntityContextManager;
+            var prevailingContext = cm.GetContext(uxManageCustomerContextKey);
+            var prevailingContextKey = EntityContextManager.ContextKey(cm.GetContext(uxManageCustomerContextKey));
+            if (uxManageCustomerContextKey == prevailingContextKey)
+            {
+                uxManageCustomer.CustomerContext.Description = prevailingContext.Description;
+                uxManageCustomer.Save();
+            }
 
-            var model = uxManageCustomer.LoadCustomer(customerId);
+            var model = uxManageCustomer.LoadCustomer(uxManageCustomer.CustomerContext.Id);
 
             ViewBag.uxTaskId = uxTaskId;
             ViewBag.ShowBackButton = uxManageCustomer.ShowBackButton;

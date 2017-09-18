@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Principal;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.Routing;
 using WebUXv2.Models;
 
@@ -20,7 +22,9 @@ namespace WebUXv2.Components
         Type GetType(string typename);
         UserExperience GetUserExperience(UxTask uxTask);
          //UserExperience GetRefreshedUserExperience(int id);
-       UserExperience GetUserExperience(int id);
+        UserExperience GetUserExperience(int id);
+        Task<UserExperience> GetUserExperienceAsync(int id);
+
         UserExperience GetUserExperience(LogicalUnit parentLu, string uxTypeName, string clientRef);
         T GetRefreshedUserExperience<T>(LogicalUnit parentLu, string clientRef) where T : UserExperience, new();
         T GetUserExperience<T>(LogicalUnit parentLu, string clientRef, Action<T> initializer = null) where T : UserExperience, new();

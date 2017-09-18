@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Ajax.Utilities;
@@ -913,6 +914,13 @@ namespace WebUXv2.Controllers
         public ActionResult HandOffTask(int uxTaskId)
         {
             return SuspendUxTask(uxTaskId);
+        }
+
+        public async Task<ActionResult> DoneAsync(int uxTaskId)
+        {
+            var ux = await _taskMan.GetUserExperienceAsync(uxTaskId);
+            if (ux == null) return HttpNotFound($"User Experience with id {uxTaskId} not found.");
+            return RedirectAfterUserExperienceCompleted(ux);
         }
 
         public ActionResult Done(int uxTaskId)
