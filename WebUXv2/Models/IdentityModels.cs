@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -23,6 +24,7 @@ namespace WebUXv2.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            //Database.Log = (sql => Debug.Write(sql));
         }
 
         public static ApplicationDbContext Create()

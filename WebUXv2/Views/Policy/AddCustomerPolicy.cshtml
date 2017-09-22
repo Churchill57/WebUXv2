@@ -11,23 +11,33 @@
     var tm = new TaskManager();
     var parentId = tm.GetParentLauncherRootComponentTaskId(uxTaskId);
 
+    EntityContext annuitantContext = new EntityContext() { Id = Model.AnnuitantId, Name = "customer" };
+    string annuitantContextJson = tm.ObjectToJson(annuitantContext);
     var annuitantUserMessage = $"Change annuitant {Model.Annuitant.FullName} for new policy";
 
+    string dependantContextJson = null;
     var dependantButtonText = "Add";
     var showDependantRemoveButton = false;
     var dependantUserMessage = "Add dependant to new policy";
+
     if (Model.DependantId.HasValue)
     {
+        EntityContext dependantContext = new EntityContext() { Id = Model.DependantId.Value, Name = "customer" };
+        dependantContextJson = tm.ObjectToJson(dependantContext);
         dependantUserMessage = $"Change dependant {Model.Dependant.FullName} on new policy";
         dependantButtonText = "Change";
         showDependantRemoveButton = true;
     }
 
+    string beneficiaryContextJson = null;
     var beneficiaryButtonText = "Add";
     var showBeneficiaryRemoveButton = false;
     var beneficiaryUserMessage = "Add beneficiary to new policy";
+
     if (Model.BeneficiaryId.HasValue)
     {
+        EntityContext beneficiaryContext = new EntityContext() { Id = Model.BeneficiaryId.Value, Name = "customer" };
+        beneficiaryContextJson = tm.ObjectToJson(beneficiaryContext);
         beneficiaryUserMessage = $"Change beneficiary {Model.Beneficiary.FullName} on new policy";
         beneficiaryButtonText = "Change";
         showBeneficiaryRemoveButton = true;
@@ -69,7 +79,7 @@
                 @Html.ActionLink("Change", "RunTask", "TaskManager", new { componentName = typeof(LuFindCustomer).Name, UserMessage = annuitantUserMessage, showSearchBackButton = true, returnTaskId = uxTaskId, returnTaskRef = "annuitant", parentTaskId = parentId }, new { @class = "btn btn-warning postRedirect" })
                 @*@Html.ActionLink("New", "RunTask", "TaskManager", new { componentName = typeof(UxAddCustomer).Name, UserMessage = annuitantUserMessage, returnTaskId = uxTaskId, returnTaskRef = "annuitant", parentTaskId = parentId }, new { @class = "btn btn-warning postRedirect" })*@
                 &nbsp;
-                @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerId = Model.AnnuitantId, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
+                @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerContext = annuitantContextJson, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
             </div>
         </div>
 
@@ -93,7 +103,7 @@
                     @:&nbsp;
                     @Html.ActionLink("Remove", "ResumeTask", "TaskManager", new { componentTaskId = uxTaskId, command = "ClearDep" }, new { @class = "btn btn-warning postRedirect" })
                     @:&nbsp;
-                    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerId = Model.DependantId, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
+                    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerContext = dependantContextJson, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
 
                 }
             </div>
@@ -111,7 +121,7 @@
                     @:&nbsp;
                     @Html.ActionLink("Remove", "ResumeTask", "TaskManager", new { componentTaskId = uxTaskId, command = "ClearBen" }, new { @class = "btn btn-warning postRedirect" })
                     @:&nbsp;
-                    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerId = Model.BeneficiaryId, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
+                    @Html.ActionLink("Manage", "RunTask", "TaskManager", new { componentName = typeof(UxManageCustomer).Name, customerContext = beneficiaryContextJson, returnTaskId = uxTaskId, parentTaskId = parentId }, new { @class = "btn btn-default postRedirect" })
 
                 }
             </div>

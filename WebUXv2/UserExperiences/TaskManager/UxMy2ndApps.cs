@@ -18,6 +18,23 @@ namespace WebUXv2.UserExperiences.TaskManager
         [ComponentState]
         public bool HideInstructions { get; set; }
 
+        public override string Title()
+        {
+            //string title = base.Title();
+            //if (!String.IsNullOrEmpty(Host))
+            //{
+            //    var hostTitle = TaskMan.GetComponentTitle(TaskMan.GetType(Host));
+            //    title = $"{title} - {hostTitle}";
+            //}
+            return $"{base.Title()} - {HostTitle()}";
+        }
+
+        public string HostTitle()
+        {
+            if (!String.IsNullOrEmpty(Host)) return TaskMan.GetComponentTitle(TaskMan.GetType(Host));
+            return string.Empty;
+        }
+
         public IEnumerable<TaskType> GetApps()
         {
             var secondaryTaskTypes = TaskMan.TaskDbContext.TaskTypes.Where(t => t.Host == Host).ToList();

@@ -6,6 +6,8 @@
     string backButtonText = ViewBag.BackButtonText;
 }
 
+<h3>For customer: @ViewBag.customerName</h3>
+
 @Html.ActionLink("Find a different customer", "ResetCustomerContextInput", "Customer", new { uxTaskId = uxTaskId }, null)
 <br />
 <br />

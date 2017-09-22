@@ -13,7 +13,7 @@ namespace WebUXv2.LogicalUnits.PropertyAddress
 {
     [ComponentTitle("Add Customer Address (excl find)")]
     [LaunchableComponent("address add customer insert create record")]
-    [SecondaryActionController("CustomerAddresses","PropertyAddress")]
+    [SecondaryActionController("CustomerAddressesAdd","PropertyAddress")]
 
     public class LuAddCustomerAddressExclFind : LogicalUnit
     {

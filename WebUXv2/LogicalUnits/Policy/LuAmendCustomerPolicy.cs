@@ -24,7 +24,8 @@ namespace WebUXv2.LogicalUnits.Policy
         [LaunchInput]
         [ComponentInput("policy")]
         [ComponentState]
-        public int? PolicyId { get; set; } = null;
+        public EntityContext PolicyContext { get; set; }
+        //public int? PolicyId { get; set; } = null;
 
         [ComponentState]
         private string NextClientRef { get; set; } = "Policy";
@@ -55,7 +56,7 @@ namespace WebUXv2.LogicalUnits.Policy
         {
             if (NextClientRef == "Policy")
             {
-                if (PolicyId == null) return null;
+                if (PolicyContext == null) return null;
 
                 //PolicyId = null;
                 //if (PolicyId.HasValue) SingletonService.Instance.UserMessage = "";
@@ -69,7 +70,7 @@ namespace WebUXv2.LogicalUnits.Policy
         {
             if (comp.ClientRef == "Policy")
             {
-                PolicyId = ((UxAmendCustomerPolicy)comp).PolicyId;
+                PolicyContext = ((UxAmendCustomerPolicy)comp).PolicyContext;
                 //SingletonService.Instance.UserMessage = "";
                 NextClientRef = null;
             }
@@ -110,7 +111,7 @@ namespace WebUXv2.LogicalUnits.Policy
             {
                 if (eventArgs.Component.ClientRef == "Policy")
                 {
-                    PolicyId = null;
+                    PolicyContext = null;
                     //NextClientRef = null;
                 }
                 if (eventArgs.Component is LuFindCustomerContext)

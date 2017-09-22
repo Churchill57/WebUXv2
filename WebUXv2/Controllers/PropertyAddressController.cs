@@ -51,7 +51,12 @@ namespace WebUXv2.Controllers
 
             if (uxAddCustomerAddress.CustomerContext == null) return HttpNotFound($"User Experience with id {uxTaskId} has a null customer context.");
 
+            var customer = uxAddCustomerAddress.LoadCustomer(uxAddCustomerAddress.CustomerContext.Id);
+            uxAddCustomerAddress.CustomerContext.Description = customer.FullName;
+            uxAddCustomerAddress.Save();
+
             var model = new PropertyAddress() { CustomerId = uxAddCustomerAddress.CustomerContext.Id };
+
 
             ViewBag.uxTaskId = uxTaskId;
             ViewBag.customerName = uxAddCustomerAddress.CustomerContext.Description;

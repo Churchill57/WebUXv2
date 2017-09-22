@@ -14,8 +14,17 @@ namespace WebUXv2.UserExperiences.TaskManager
     {
         public override string Title()
         {
-            if ("app".Equals(ComponentHostToAdd, StringComparison.CurrentCultureIgnoreCase)) return base.Title();
-            return $"{ComponentHostToAdd} - Add Secondary Task";
+            string title = base.Title();
+            if ("app".Equals(ComponentHostToAdd, StringComparison.CurrentCultureIgnoreCase)) return title;
+            if (!String.IsNullOrEmpty(ComponentHostToAdd))
+            {
+                var hostTitle = TaskMan.GetComponentTitle(TaskMan.GetType(ComponentHostToAdd));
+                title = $"{title} - {hostTitle}";
+            }
+            return title;
+
+            //if ("app".Equals(ComponentHostToAdd, StringComparison.CurrentCultureIgnoreCase)) return base.Title();
+            //return $"Add Secondary Task - {ComponentHostToAdd}";
         }
 
         [ComponentState]

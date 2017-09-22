@@ -166,7 +166,7 @@ namespace WebUXv2.Controllers
             else
             {
                 uxAmendCustomerPolicy.AmendPolicy(paPolicy);
-                uxAmendCustomerPolicy.PolicyId = paPolicy.Id;
+                //uxAmendCustomerPolicy.PolicyId = paPolicy.Id;
                 uxAmendCustomerPolicy.Save();
             }
 

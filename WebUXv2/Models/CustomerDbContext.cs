@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,7 @@ namespace WebUXv2.Models
     
         public CustomerDbContext() : base("name=CustomerDbContext")
         {
+            //Database.Log = (sql => Debug.Write(sql));
         }
 
         public System.Data.Entity.DbSet<WebUXv2.Models.Customer> Customers { get; set; }

@@ -17,14 +17,12 @@
 
 }
 
-Address
-@Html.ActionLink("+Add", "RunTask", "TaskManager", new { componentName = rootComponentName, returnTaskId = uxTaskId, parentTaskId = parentId }, null)
 @{
     if (firstAddress != null)
     {
         var firstAddressContext = new EntityContext(firstAddress.Id, "address", firstAddress.CommasSeparated);
         string firstAddressContextJson = tm.ObjectToJson(firstAddressContext);
-        <br/>
+        <p>Addresses</p>
         @Html.ActionLink(firstAddress.CommasSeparated, "RunTask", "TaskManager", new {componentName = typeof(LuAmendCustomerAddress).Name, addressContext = firstAddressContextJson, customerContext = customerContextJson, returnTaskId = uxTaskId, parentTaskId = parentId}, null)
     }
 }

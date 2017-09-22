@@ -61,6 +61,7 @@ namespace WebUXv2.LogicalUnits.Policy
         }
         public void InitialiseState()
         {
+            SearchPolicyId = null;
             SelectedPolicyId = null;
             CriteriaCaptured = false;
             SearchTaskId = null;

@@ -11,11 +11,11 @@ namespace WebUXv2.UserExperiences.TaskManager
     [PrimaryActionController("MyApps", "TaskManager")]
     public class UxMyApps : UserExperience
     {
-        public override string Title()
-        {
-            if ("app".Equals(Host, StringComparison.CurrentCultureIgnoreCase)) return base.Title();
-            return $"{Host} - Secondary Tasks";
-        }
+        //public override string Title()
+        //{
+        //    if ("app".Equals(Host, StringComparison.CurrentCultureIgnoreCase)) return base.Title();
+        //    return $"{Host} - Secondary Tasks";
+        //}
 
         [ComponentState]
         public string Host { get; set; }

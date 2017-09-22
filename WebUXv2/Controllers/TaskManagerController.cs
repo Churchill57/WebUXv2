@@ -269,10 +269,10 @@ namespace WebUXv2.Controllers
                 {
                     var lu = nextComp as LogicalUnit;
 
-                    if (_taskMan.ComponentIsSingleton(lu))
-                    {
-                        ((ISingletonComponent)lu).InitialiseState();
-                    }
+                    //if (_taskMan.ComponentIsSingleton(lu))
+                    //{
+                    //    ((ISingletonComponent)lu).InitialiseState();
+                    //}
 
 
 
@@ -630,7 +630,7 @@ namespace WebUXv2.Controllers
                     atLeastOneInputWasResolved = true;
                 }
                 // Look for context value which matches component property name.
-                else if (componentInputProperty.Value != null && parsedSearchText.ContainsKey(componentInputProperty.Value))
+                else if (componentInputProperty.Value != null && parsedSearchText.ContainsKey(componentInputProperty.Value) && !forceContextSearch)
                 {
                     int contextId = (int)parsedSearchText[componentInputProperty.Value];
                     //If there is a corresponding context value, use it to assign property value.
@@ -676,7 +676,27 @@ namespace WebUXv2.Controllers
                         }
                     }
 
-                    propertyInfo.SetValue(comp, Convert.ChangeType(parsedSearchText[componentInputProperty.Value], propertyType), null);
+                    if (propertyInfo.PropertyType == typeof(EntityContext))
+                    {
+                        var entityContextRouteValue = routeValues[componentInputProperty.Key] as EntityContext;
+                        if (entityContextRouteValue != null)
+                        {
+                            propertyInfo.SetValue(comp, Convert.ChangeType(routeValues[componentInputProperty.Key], typeof(EntityContext)), null);
+                        }
+                        else
+                        {
+                            var entityContext = new EntityContext(contextId, componentInputProperty.Value, null);
+                            propertyInfo.SetValue(comp, Convert.ChangeType(entityContext, typeof(EntityContext)), null);
+                        }
+
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(comp, Convert.ChangeType(parsedSearchText[componentInputProperty.Value], propertyType), null);
+                        //propertyInfo.SetValue(comp, Convert.ChangeType(routeValues[componentInputProperty.Key], propertyType), null);
+                    }
+
+                    //propertyInfo.SetValue(comp, Convert.ChangeType(parsedSearchText[componentInputProperty.Value], propertyType), null);
 
                     //_ctxMan.SetContext((int)parsedSearchText[componentInputProperty.Value], componentInputProperty.Value, null);
 
@@ -1092,6 +1112,7 @@ namespace WebUXv2.Controllers
 
             ViewBag.uxTaskId = uxTaskId;
             ViewBag.Host = uxMy2ndApps.Host;
+            ViewBag.HostTitle = uxMy2ndApps.HostTitle();
 
             return View("My2ndApps", model);
 

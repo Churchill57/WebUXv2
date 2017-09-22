@@ -52,7 +52,8 @@ namespace WebUXv2.UserExperiences.Policy
 
         [ComponentInput("policy")]
         [ComponentState]
-        public int? PolicyId { get; internal set; }
+        public EntityContext PolicyContext { get; internal set; }
+        //public int? PolicyId { get; internal set; }
 
         [ComponentState]
         public bool ShowBackButton { get; set; } = true;
@@ -70,7 +71,7 @@ namespace WebUXv2.UserExperiences.Policy
             if (currentPolicy == null)
             {
                 if (interimPolicySet) return;
-                currentPolicy = _db.PAPolicies.Find(PolicyId);
+                currentPolicy = _db.PAPolicies.Find(PolicyContext.Id);
 
                 SetContexts(currentPolicy);
 
@@ -84,7 +85,7 @@ namespace WebUXv2.UserExperiences.Policy
 
         public PAPolicy GetInterimPolicy()
         {
-            var interimPolicy = _db.PAPolicies.Find(PolicyId);
+            var interimPolicy = _db.PAPolicies.Find(PolicyContext.Id);
 
             SetContexts(interimPolicy);
 

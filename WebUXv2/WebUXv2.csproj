@@ -473,6 +473,7 @@
     <Content Include="Views\Policy\AmendCustomerPolicy.cshtml" />
     <Content Include="Views\EntityContext\RecentContextList.cshtml" />
     <Content Include="Views\PropertyAddress\AmendCustomerAddress.cshtml" />
+    <Content Include="Views\PropertyAddress\CustomerAddressesAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

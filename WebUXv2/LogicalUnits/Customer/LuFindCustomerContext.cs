@@ -110,6 +110,7 @@ namespace WebUXv2.LogicalUnits.Customer
 
                     var lu = GetLogicalUnit<LuFindCustomerByPolicy>("-LuFindCustomerByPolicy");
                     lu.PolicyId = policyContext.Id;
+                    lu.SelectedCustomerContext = null;
                     return lu;
                 }
 
