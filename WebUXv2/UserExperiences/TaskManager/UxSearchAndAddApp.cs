@@ -41,11 +41,11 @@ namespace WebUXv2.UserExperiences.TaskManager
                 from type in assy.GetTypes()
                 let launchAttr = type.GetCustomAttribute<LaunchableComponentAttribute>()
                 where Attribute.IsDefined(type, typeof(LaunchableComponentAttribute))
-                let titleAttr = type.GetCustomAttribute<ComponentTitleAttribute>()
-                let matches = StringMatch(titleAttr.Title + " " + launchAttr.SearchTags, SearchText)
+                let titleAttr = type.GetCustomAttribute<ComponentTitleAttribute>().Title
+                let matches = StringMatch(launchAttr.SearchTags, SearchText)
                 where matches > 0 || showAll
-                orderby matches descending
-                select new TaskType() { Id = 0, RootComponentName = type.Name, Name = titleAttr.Title, SearchTags = launchAttr.SearchTags, CriteriaMatchScore = matches }
+                orderby matches descending, titleAttr.Replace("* ", "zz") ascending
+                select new TaskType() { Id = 0, RootComponentName = type.Name, Name = titleAttr, SearchTags = launchAttr.SearchTags, CriteriaMatchScore = matches }
             ).ToList();
 
             return results;
@@ -58,16 +58,19 @@ namespace WebUXv2.UserExperiences.TaskManager
             // The more space delimited parts of the 'find' string in the 'subject' string, the higher the match weight.
             // The earlier the 'find' string appears in the 'subject' string, the higher the match weight.
             int matchWeight = 0;
+            int matchCount = 0;
             var parts = find.Split(' ');
             foreach (var part in parts)
             {
                 var matchIndex = subject.IndexOf(part, StringComparison.InvariantCultureIgnoreCase);
                 if (matchIndex != -1)
                 {
-                    matchWeight += part.Length * Math.Max(50 - matchIndex, 1);
+                    matchCount += 1;
+                    matchWeight += part.Length;
+                    //matchWeight += part.Length * Math.Max(50 - matchIndex, 1);
                 }
             }
-            return matchWeight;
+            return matchWeight * matchCount;
         }
 
     }

@@ -11,8 +11,8 @@ using WebUXv2.UserExperiences.PropertyAddress;
 
 namespace WebUXv2.LogicalUnits.PropertyAddress
 {
-    [ComponentTitle("Amend Customer Address (excl find)")]
-    [LaunchableComponent("address amend customer update change")]
+    [ComponentTitle("Amend Address")]
+    [LaunchableComponent("address amend update change")]
     [SecondaryActionController("CustomerAddresses", "PropertyAddress")]
 
     public class LuAmendCustomerAddress : LogicalUnit

@@ -14,35 +14,11 @@
 
 @Html.ActionLink("Amend a different customer", "ResetCustomerContextInput", new { uxTaskId = uxTaskId })
 
-@*<script>
-    var isChanged= false;
-    $("input").change(function() {
-        isChanged = true;
-        alert("change made");
-    });
-
-    $(window)
-        .unload(
-            function () {
-                alert(isChanged);
-                if (isChanged == false) {
-                    return;
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "@(Url.Action("AmendCustomer", "Customer",new {uxTaskId = uxTaskId}))",
-                    data: $("form").serialize()
-                });
-            }
-        );
-</script>*@
-
 <div class="row">
     <div class="col-md-7 margin-top-20">
 
-        @using (Html.BeginForm()) //"AmendCustomer", "Customer", new { uxTaskId = uxTaskId })))
+        @using (Html.BeginForm())
         {
-           @*@Html.AntiForgeryToken()*@
 
             <div class="form-horizontal">
 

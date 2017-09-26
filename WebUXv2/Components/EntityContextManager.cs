@@ -147,37 +147,89 @@ namespace WebUXv2.Components
 
         public IEntityContext ResolveContext(string requiredContextName, string preferredRelationshipName = null)
         {
+            var resolvedContexts = ResolveContexts(requiredContextName, preferredRelationshipName);
+            return resolvedContexts?.FirstOrDefault();
+
+            //if (GetCurrentContext != null)
+            //{
+            //    // Is the required context name the same as the current entity context name.
+            //    if (String.Equals(GetCurrentContext.Name, requiredContextName, StringComparison.CurrentCultureIgnoreCase)) return GetCurrentContext;
+            //}
+
+            //// Is the required context name directly related to the current entity context.
+            //if (GetCurrentContext != null)
+            //{
+            //    var relatedContext =
+            //        GetDirectRelationships(GetCurrentContext, null, requiredContextName)
+            //        .OrderByDescending(dr => String.Equals(dr.Name, preferredRelationshipName, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0)
+            //        .ThenByDescending(dr => dr.EntityContext.WhenSet)
+            //        .FirstOrDefault();
+            //    if (relatedContext != null) return relatedContext.EntityContext;
+            //}
+
+            //// Is the required context name indirectly related to the current entity context.
+            //if (GetCurrentContext != null)
+            //{
+            //    var relatedContext = (
+            //        from EntityContextDirectRelationship dr in GetRelatedContexts(GetCurrentContext, 5)
+            //        orderby dr.Level
+            //               ,String.Equals(dr.Name, preferredRelationshipName, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0 descending 
+            //               ,dr.EntityContext.WhenSet descending
+            //        where String.Equals(dr.EntityContext.Name, requiredContextName, StringComparison.CurrentCultureIgnoreCase)
+            //        select dr.EntityContext
+            //    ).FirstOrDefault();
+            //    if (relatedContext != null) return relatedContext;
+            //}
+            //return null;
+        }
+
+        public IEnumerable<IEntityContext> ResolveContexts(string requiredContextName, string preferredRelationshipName = null)
+        {
+            var contexts = new List<IEntityContext>();
+
             if (GetCurrentContext != null)
             {
                 // Is the required context name the same as the current entity context name.
-                if (String.Equals(GetCurrentContext.Name, requiredContextName, StringComparison.CurrentCultureIgnoreCase)) return GetCurrentContext;
+                if (String.Equals(GetCurrentContext.Name, requiredContextName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    contexts.Add(GetCurrentContext);
+                }
+                if (contexts.Any()) return contexts;
             }
 
             // Is the required context name directly related to the current entity context.
             if (GetCurrentContext != null)
             {
-                var relatedContext =
+                var relatedContexts =
                     GetDirectRelationships(GetCurrentContext, null, requiredContextName)
                     .OrderByDescending(dr => String.Equals(dr.Name, preferredRelationshipName, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0)
-                    .ThenByDescending(dr => dr.EntityContext.WhenSet)
-                    .FirstOrDefault();
-                if (relatedContext != null) return relatedContext.EntityContext;
+                    .ThenByDescending(dr => dr.EntityContext.WhenSet);
+
+                foreach (var relatedContext in relatedContexts)
+                {
+                    contexts.Add(relatedContext.EntityContext);
+                }
+                if (contexts.Any()) return contexts;
             }
 
             // Is the required context name indirectly related to the current entity context.
             if (GetCurrentContext != null)
             {
-                var relatedContext = (
+                var relatedContexts = (
                     from EntityContextDirectRelationship dr in GetRelatedContexts(GetCurrentContext, 5)
                     orderby dr.Level
-                           ,String.Equals(dr.Name, preferredRelationshipName, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0 descending 
-                           ,dr.EntityContext.WhenSet descending
+                           , String.Equals(dr.Name, preferredRelationshipName, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0 descending
+                           , dr.EntityContext.WhenSet descending
                     where String.Equals(dr.EntityContext.Name, requiredContextName, StringComparison.CurrentCultureIgnoreCase)
                     select dr.EntityContext
-                ).FirstOrDefault();
-                if (relatedContext != null) return relatedContext;
+                );
+                foreach (var relatedContext in relatedContexts)
+                {
+                    contexts.Add(relatedContext);
+                }
+                if (contexts.Any()) return contexts;
             }
-            return null;
+            return contexts;
         }
 
         public void RemoveDirectRelationship(IEntityContext entityContext, string relationshipName)
@@ -247,6 +299,7 @@ namespace WebUXv2.Components
         IEnumerable<IEntityContextDirectRelationship> GetDirectRelationships(IEntityContext entityContext, string relationshipName = null, string relatedEntityName = null);
         void Clear();
         IEntityContext ResolveContext(string requiredContextName, string preferredRelationshipName = null);
+        IEnumerable<IEntityContext> ResolveContexts(string requiredContextName, string preferredRelationshipName = null);
 
         void RemoveDirectRelationship(IEntityContext entityContext, string relationshipName);
         void RemoveDirectRelationship(int id, string name, string relationshipName);

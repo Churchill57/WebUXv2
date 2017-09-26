@@ -13,7 +13,7 @@ using WebUXv2.Models;
 namespace WebUXv2.UserExperiences.Customer
 {
     //[Authorize(Roles = "Admin")] // Also use Authorise attribute on AmendCustomer action method in CustomerController
-    [ComponentTitle("Add Customer Details")]
+    [ComponentTitle("* Add Customer Details (ux)")]
     [PrimaryActionController("AddCustomer", "Customer")]
     [LaunchableComponent("temporary")]
     public class UxAddCustomer : UserExperience

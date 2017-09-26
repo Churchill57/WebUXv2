@@ -10,7 +10,7 @@ using WebUXv2.Models;
 namespace WebUXv2.UserExperiences.Policy
 {
     [ComponentTitle("Amend Policy Details")]
-    ////[LaunchableComponent("temporary")]
+    //[LaunchableComponent("temporary")]
     [PrimaryActionController("AmendCustomerPolicy", "Policy")]
     public class UxAmendCustomerPolicy : UserExperience
     {
@@ -53,7 +53,6 @@ namespace WebUXv2.UserExperiences.Policy
         [ComponentInput("policy")]
         [ComponentState]
         public EntityContext PolicyContext { get; internal set; }
-        //public int? PolicyId { get; internal set; }
 
         [ComponentState]
         public bool ShowBackButton { get; set; } = true;

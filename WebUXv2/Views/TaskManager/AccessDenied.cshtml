@@ -22,9 +22,11 @@
 <p>
     You can hand off the task to a user who has the necessary privileges.
 </p>
-@*<a href="@returnUrl" class="btn btn-success">Hand Off</a>*@
-@*@Html.ActionLink("Handoff", "RunTask", "TaskManager", new { componentName = typeof(LuRunAndManageApps).Name, Command = "ActiveTasks" }, new { @class = "btn btn-success" })*@
-@Html.ActionLink("Handoff", "HandOffTask", "TaskManager", new { returnUrl = Request.Url.AbsoluteUri }, new { @class = "btn btn-success" })
+@Html.ActionLink("Handoff", "ConfirmHandOff", "TaskManager", new { resumeTaskId = nextTaskId, returnUrl = Request.Url.AbsoluteUri }, new { @class = "btn btn-success" })
+
+
+
+
 
 
 

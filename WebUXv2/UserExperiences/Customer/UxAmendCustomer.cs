@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Dynamic;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 using System.Web.Mvc;
 using WebUXv2.Components;
-using WebUXv2.Events;
-using WebUXv2.Events.TaskManager;
 using WebUXv2.Models;
 
 namespace WebUXv2.UserExperiences.Customer
 {
     [Authorize(Roles = "Admin")] // Also use Authorise attribute on AmendCustomer action method in CustomerController
-    [ComponentTitle("Amend Customer Details")]
+    [ComponentTitle("* Amend Customer Details (ux)")]
     [PrimaryActionController("AmendCustomer", "Customer")]
     [LaunchableComponent("temporary")]
     public class UxAmendCustomer : UserExperience
@@ -22,7 +15,6 @@ namespace WebUXv2.UserExperiences.Customer
         [ComponentInput("customer")]
         [ComponentState]
         public EntityContext CustomerContext { get; set; }
-        //public int? CustomerId { get; set; }
         //TODO: Use IEntityContext instead of concrete type EntityContext for context properties. Change task manager code accordingly which assigns values to properties of this type.
 
         [ComponentState]
@@ -30,13 +22,6 @@ namespace WebUXv2.UserExperiences.Customer
 
         [ComponentState]
         public string BackButtonText { get; set; } = "Cancel";
-
-        //public override ExpandoObject ActionParams() // TODO: Do we need ExpandoObject ActionParams() anymore?
-        //{
-        //    dynamic result = new ExpandoObject();
-        //    result.customerId = CustomerId;
-        //    return result;
-        //}
 
         public Models.Customer LoadCustomer(int id)
         {
@@ -55,11 +40,6 @@ namespace WebUXv2.UserExperiences.Customer
 
             SingletonService.Instance.UserMessage = $"Customer {customer.FullName} was amended";
         }
-
-        //public BackEventArgs Back()
-        //{
-        //    return new BackEventArgs(this);
-        //}
 
     }
 }

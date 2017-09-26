@@ -22,7 +22,7 @@
     {
         var firstAddressContext = new EntityContext(firstAddress.Id, "address", firstAddress.CommasSeparated);
         string firstAddressContextJson = tm.ObjectToJson(firstAddressContext);
-        <p>Addresses</p>
+        @:Addresses
         @Html.ActionLink(firstAddress.CommasSeparated, "RunTask", "TaskManager", new {componentName = typeof(LuAmendCustomerAddress).Name, addressContext = firstAddressContextJson, customerContext = customerContextJson, returnTaskId = uxTaskId, parentTaskId = parentId}, null)
     }
 }

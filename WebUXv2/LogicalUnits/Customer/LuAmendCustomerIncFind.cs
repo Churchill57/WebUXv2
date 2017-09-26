@@ -10,7 +10,7 @@ using WebUXv2.UserExperiences.Customer;
 namespace WebUXv2.LogicalUnits.Customer
 {
     //[Authorize(Roles = "Admin")]
-    [ComponentTitle("Amend Customer (inc find)")]
+    [ComponentTitle("* Amend Customer (inc find)")]
     [LaunchableComponent("customer amend change update edit alter")]
     public class LuAmendCustomerIncFind : LogicalUnit
     {

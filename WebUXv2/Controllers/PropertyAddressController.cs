@@ -101,6 +101,24 @@ namespace WebUXv2.Controllers
             return PartialView(addresses);
         }
 
+        public ActionResult CustomerAddressesAdd(string componentName, string rootComponentName)
+        {
+
+            var cm = SingletonService.Instance.EntityContextManager;
+            var customerContext = cm.ResolveContext("customer");
+            if (customerContext == null) return new EmptyResult();
+
+            var db = new CustomerDbContext();
+            var addresses = db.PropertyAddresses.Where(a => a.CustomerId == customerContext.Id);
+
+            ViewBag.ComponentName = componentName;
+            ViewBag.RootComponentName = rootComponentName;
+            ViewBag.CustomerContext = customerContext;
+
+            return PartialView(addresses);
+        }
+
+
         public ActionResult AmendCustomerAddress(int uxTaskId)
         {
             var uxAmendCustomerAddress = _tm.GetUserExperience(uxTaskId) as UxAmendCustomerAddress;

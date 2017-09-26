@@ -10,13 +10,24 @@
     var tm = new TaskManager();
     var parentId = tm.GetParentLauncherRootComponentTaskId(uxTaskId);
 
+
 }
 Policies
 @Html.ActionLink("+Add", "RunTask", "TaskManager", new { componentName = rootComponentName, returnTaskId = uxTaskId, parentTaskId = parentId }, null)
+@{
+    foreach (var item in Model)
+    {
+        
+    }
+
+}
 @foreach (var item in Model)
 {
+    EntityContext policyContext = new EntityContext() { Id = item.Id, Name = "policy", Description = item.Description};
+    string policyContextJson = tm.ObjectToJson(policyContext);
+
     <br />
-    @Html.ActionLink(item.Description + " " + item.Cargo, "RunTask", "TaskManager", new { componentName = typeof(LuAmendCustomerPolicy).Name, policyId = item.Id,  returnTaskId = uxTaskId, parentTaskId = parentId }, null)
+    @Html.ActionLink(item.Description + " " + item.Cargo, "RunTask", "TaskManager", new { componentName = typeof(LuAmendCustomerPolicy).Name, policyContext = policyContextJson,  returnTaskId = uxTaskId, parentTaskId = parentId }, null)
 }
 
 

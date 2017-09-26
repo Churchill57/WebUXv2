@@ -8,7 +8,7 @@ using WebUXv2.UserExperiences.Policy;
 
 namespace WebUXv2.LogicalUnits.Policy
 {
-    [ComponentTitle("Find Policy Context")]
+    [ComponentTitle("* Find Policy Context")]
     //[SingletonComponent]
     [LaunchableComponent("temporary")]
     public class LuFindPAPolicyContext : LogicalUnit, ISingletonComponent

@@ -10,7 +10,7 @@ namespace WebUXv2.LogicalUnits.Customer
 {
     //[Authorize(Roles = "Admin")] // Also use Authorise attribute on AmendCustomer action method in CustomerController
     [ComponentTitle("Capture Customer Second Line Defence Questions")]
-    //[LaunchableComponent("capture record save customer 2nd second line second-line defence defense question quest")]
+    [LaunchableComponent("capture record save customer 2nd second line second-line defence defense question quest")]
     [SecondaryActionController("CustomerSecondLineDefenceQuestions", "Customer")]
 
     // TODO: Is LuCapture2ndLineDefenceQuestions pointless considering it only calls UxCapture2ndLineDefenceQuestions?

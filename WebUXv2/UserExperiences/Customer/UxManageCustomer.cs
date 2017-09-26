@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using WebUXv2.Components;
+﻿using WebUXv2.Components;
 using WebUXv2.Models;
 
 namespace WebUXv2.UserExperiences.Customer
 {
-    [ComponentTitle("Manage Customer")]
+    [ComponentTitle("* Manage Customer (ux)")]
     [LaunchableComponent("temporary")]
     [PrimaryActionController("ManageCustomer", "Customer")]
     public class UxManageCustomer : UserExperience
@@ -15,20 +12,12 @@ namespace WebUXv2.UserExperiences.Customer
         [ComponentInput("customer")]
         [ComponentState]
         public EntityContext CustomerContext { get; set; }
-        //public int? CustomerId { get; set; }
 
         [ComponentState]
         public bool ShowBackButton { get; set; } = false;
 
         [ComponentState]
         public string BackButtonText { get; set; } = "Back";
-
-        //public override ExpandoObject ActionParams()
-        //{
-        //    dynamic result = new ExpandoObject();
-        //    result.customerId = CustomerId;
-        //    return result;
-        //}
 
         public Models.Customer LoadCustomer(int id)
         {

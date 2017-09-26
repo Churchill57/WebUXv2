@@ -8,7 +8,7 @@ using WebUXv2.UserExperiences.Customer;
 
 namespace WebUXv2.LogicalUnits.Customer
 {
-    [ComponentTitle("Manage Customer (inc find)")]
+    [ComponentTitle("* Manage Customer (inc find)")]
     [LaunchableComponent("customer manage review")]
     public class LuManageIncSearchCustomer : LogicalUnit
     {

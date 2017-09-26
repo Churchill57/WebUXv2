@@ -8,7 +8,7 @@ using WebUXv2.UserExperiences.Customer;
 
 namespace WebUXv2.LogicalUnits.Customer
 {
-    [ComponentTitle("Preview Customer (inc find)")]
+    [ComponentTitle("* Preview Customer (inc find)")]
     [LaunchableComponent("customer preview")]
     public class LuPreviewCustomerIncFind : LogicalUnit
     {

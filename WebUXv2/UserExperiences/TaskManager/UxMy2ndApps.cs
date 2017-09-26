@@ -31,8 +31,9 @@ namespace WebUXv2.UserExperiences.TaskManager
 
         public string HostTitle()
         {
-            if (!String.IsNullOrEmpty(Host)) return TaskMan.GetComponentTitle(TaskMan.GetType(Host));
-            return string.Empty;
+            if (String.IsNullOrEmpty(Host)) return string.Empty;
+            if ("app".Equals(Host, StringComparison.CurrentCultureIgnoreCase)) return string.Empty; ;
+            return TaskMan.GetComponentTitle(TaskMan.GetType(Host));
         }
 
         public IEnumerable<TaskType> GetApps()

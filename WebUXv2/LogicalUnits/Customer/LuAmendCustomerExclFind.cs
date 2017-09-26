@@ -1,30 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using WebUXv2.Components;
-using WebUXv2.Events;
+﻿using WebUXv2.Components;
 using WebUXv2.Events.TaskManager;
-using WebUXv2.UserExperiences;
 using WebUXv2.UserExperiences.Customer;
 
 namespace WebUXv2.LogicalUnits.Customer
 {
-    //[Authorize(Roles = "Admin")]
-    [ComponentTitle("Amend Customer (excl find)")]
-    [LaunchableComponent("customer amend change update edit alter")]
-    //[SecondaryUserExperience("customer amend change update edit alter")]
+    [ComponentTitle("Amend Customer")]
+    [LaunchableComponent("customer cust amend change update edit alter")]
     public class LuAmendCustomerExclFind : LogicalUnit
     {
 
-        //[ContextInput("customer")]
-        //public int? CustomerIdToAmend { get; set; }= null;
         [ComponentState]
         internal EntityContext AmendedCustomer { get; set; }
-        //internal int? AmendedCustomerId { get; set; }= null;
 
         [ComponentState]
         internal EntityContext ManagedCustomerContext { get; set; }
-        //internal int? ManagedCustomerId { get; set; }= null;
 
         [ComponentState]
         private string NextClientRef { get; set; } = "Amend";

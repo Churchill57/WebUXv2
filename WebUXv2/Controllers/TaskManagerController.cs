@@ -909,6 +909,8 @@ namespace WebUXv2.Controllers
                 string returnUrl = Request.UrlReferrer?.AbsoluteUri ?? "";
                 routeParams.Add("returnUrl", returnUrl);
 
+                routeParams.Add("nextTaskId", ux.TaskId);
+
                 uxActionResult = RedirectToAction("AccessDenied", "TaskManager", routeParams);
             }
             //return new HttpUnauthorizedResult(@"You are not authorised to access the User Experience {ux.Name}");

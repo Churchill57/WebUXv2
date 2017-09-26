@@ -20,7 +20,7 @@
         if (uxTaskId > 0)
         {
             var tm = new TaskManager();
-            ultimateParentId = tm.GetUltimateParentLogicalUnitId(uxTaskId);
+            ultimateParentId = tm.GetUltimateParentLauncherLogicalUnitTask(uxTaskId).Id;
             ultimateParentTitle = tm.GetUltimateParentLogicalUnitTitle(uxTaskId);
         }
 

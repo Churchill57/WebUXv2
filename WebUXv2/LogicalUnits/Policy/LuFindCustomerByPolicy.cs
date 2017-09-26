@@ -9,7 +9,7 @@ using WebUXv2.UserExperiences.Policy;
 
 namespace WebUXv2.LogicalUnits.Policy
 {
-    [ComponentTitle("Find Customer by Policy")]
+    [ComponentTitle("* Find Customer by Policy")]
     //[SingletonComponent]
     [LaunchableComponent("temporary")]
     public class LuFindCustomerByPolicy : LogicalUnit//, ISingletonComponent

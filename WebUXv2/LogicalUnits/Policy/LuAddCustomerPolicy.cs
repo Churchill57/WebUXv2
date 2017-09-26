@@ -14,7 +14,7 @@ using WebUXv2.UserExperiences.PropertyAddress;
 
 namespace WebUXv2.LogicalUnits.Policy
 {
-    [ComponentTitle("Create Policy (excl find)")]
+    [ComponentTitle("Create Policy")]
     [LaunchableComponent("customer add policy insert create record")]
     [SecondaryActionController("CustomerPolicies","Policy")]
 

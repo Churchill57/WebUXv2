@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Web;
-using WebUXv2.Components;
-using WebUXv2.Events;
+﻿using WebUXv2.Components;
 using WebUXv2.Events.TaskManager;
 using WebUXv2.LogicalUnits.Customer;
 using WebUXv2.LogicalUnits.TaskManager;
-using WebUXv2.UserExperiences;
 using WebUXv2.UserExperiences.Policy;
-using WebUXv2.UserExperiences.PropertyAddress;
 
 namespace WebUXv2.LogicalUnits.Policy
 {
-    [ComponentTitle("Amend Policy (excl find)")]
+    [ComponentTitle("Amend Policy")]
     [LaunchableComponent("customer amend policy change edit modify")]
     [SecondaryActionController("CustomerPolicies","Policy")]
 
@@ -25,7 +17,6 @@ namespace WebUXv2.LogicalUnits.Policy
         [ComponentInput("policy")]
         [ComponentState]
         public EntityContext PolicyContext { get; set; }
-        //public int? PolicyId { get; set; } = null;
 
         [ComponentState]
         private string NextClientRef { get; set; } = "Policy";
@@ -36,20 +27,13 @@ namespace WebUXv2.LogicalUnits.Policy
 
         public override Component GetNextComponent()
         {
-            //if (!PolicyId.HasValue)
             if (NextClientRef == "Policy")
             {
-                //if (PolicyId.HasValue) SingletonService.Instance.UserMessage = "";
-                var uxAmendCustomerPolicy = GetUserExperience<UxAmendCustomerPolicy>("Policy", InitializeAmendCustomerPolicy);
+                var uxAmendCustomerPolicy = GetUserExperience<UxAmendCustomerPolicy>("Policy");
                 uxAmendCustomerPolicyTaskId = uxAmendCustomerPolicy.TaskId;
                 return uxAmendCustomerPolicy;
             }
             return null;
-        }
-
-        private void InitializeAmendCustomerPolicy(UxAmendCustomerPolicy uxAmendCustomerPolicy)
-        {
-            //uxAmendCustomerPolicy.AnnuitantId = CustomerId;
         }
 
         public override Component GetPrevComponent()
@@ -58,11 +42,8 @@ namespace WebUXv2.LogicalUnits.Policy
             {
                 if (PolicyContext == null) return null;
 
-                //PolicyId = null;
-                //if (PolicyId.HasValue) SingletonService.Instance.UserMessage = "";
                 return GetUserExperience<UxAmendCustomerPolicy>("Policy");
             }
-            //SingletonService.Instance.UserMessage = "";
             return null;
         }
 
@@ -71,7 +52,6 @@ namespace WebUXv2.LogicalUnits.Policy
             if (comp.ClientRef == "Policy")
             {
                 PolicyContext = ((UxAmendCustomerPolicy)comp).PolicyContext;
-                //SingletonService.Instance.UserMessage = "";
                 NextClientRef = null;
             }
 
@@ -112,7 +92,6 @@ namespace WebUXv2.LogicalUnits.Policy
                 if (eventArgs.Component.ClientRef == "Policy")
                 {
                     PolicyContext = null;
-                    //NextClientRef = null;
                 }
                 if (eventArgs.Component is LuFindCustomerContext)
                 {

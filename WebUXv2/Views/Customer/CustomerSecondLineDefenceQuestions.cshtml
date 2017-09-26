@@ -14,10 +14,12 @@
 }
 Second line defence questions
 @Html.ActionLink("+Add", "RunTask", "TaskManager", new { componentName = rootComponentName, returnTaskId = uxTaskId, parentTaskId = parentId }, null)
-@if (firstQuestion != null)
-{
-    <br />
-    @Html.ActionLink(firstQuestion.Description, "Edit", "SecondLineDefenceQuestionsCrud", new { id = firstQuestion.Id }, null)
+@{
+    foreach (var q in Model)
+    {
+        <br />
+        @Html.ActionLink(q.Customer.FullName + " - " + q.Description, "Edit", "SecondLineDefenceQuestionsCrud", new { id = q.Id }, null)
+    }
 }
 
 

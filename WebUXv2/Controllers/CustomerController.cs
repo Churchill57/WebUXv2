@@ -384,7 +384,6 @@ namespace WebUXv2.Controllers
             if (uxAmendCustomer == null) return HttpNotFound($"User Experience with id {uxTaskId} not found.");
 
             if (uxAmendCustomer.CustomerContext==null) return HttpNotFound($"User Experience with id {uxTaskId} has a null customer context.");
-            //if (!uxAmendCustomer.CustomerId.HasValue) return HttpNotFound($"User Experience with id {uxTaskId} has a null customer id.");
 
             var customerId = uxAmendCustomer.CustomerContext.Id;
 
@@ -452,17 +451,21 @@ namespace WebUXv2.Controllers
 
         public ActionResult CustomerSecondLineDefenceQuestions(string componentName, string rootComponentName)
         {
+            // TODO: Should defer here to framework to find customer context!
             var cm = SingletonService.Instance.EntityContextManager;
-            var customerContext = cm.ResolveContext("customer");
-            if (customerContext == null) return new EmptyResult();
+            var customerContexts = cm.ResolveContexts("customer");
+            if (customerContexts?.FirstOrDefault() == null) return new EmptyResult();
+
+            var customerIds = from ctx in customerContexts select ctx.Id;
 
             var db = new CustomerDbContext();
-            var addresses = db.SecondLineDefenceQuestions.Where(a => a.CustomerId == customerContext.Id);
+
+            var questions = db.SecondLineDefenceQuestions.Where(a => customerIds.Contains(a.CustomerId)).OrderByDescending(a => a.DateAsked);
 
             ViewBag.ComponentName = componentName;
             ViewBag.RootComponentName = rootComponentName;
 
-            return PartialView(addresses);
+            return PartialView(questions);
         }
 
     }

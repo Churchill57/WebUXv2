@@ -10,8 +10,8 @@ using WebUXv2.Models;
 namespace WebUXv2.UserExperiences.Customer
 {
     //[Authorize(Roles = "Admin")] // Also use Authorise attribute on AmendCustomer action method in CustomerController
+    [ComponentTitle("* Record answers to 2nd Line Defence Questions (ux)")]
     [LaunchableComponent("capture record save customer 2nd second line second-line defence defense question quest")]
-    [ComponentTitle("Record answers to 2nd Line Defence Questions")]
     [PrimaryActionController("Capture2ndLineDefenceQuestions", "Customer")]
     public class UxCapture2ndLineDefenceQuestions : UserExperience
     {

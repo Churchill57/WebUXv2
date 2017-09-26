@@ -16,7 +16,6 @@
     var phoneNumberCount = Model.PhoneNumbers.Count;
 
     var tm = new TaskManager();
-    //var ultimateParentId = tm.GetUltimateParentLogicalUnitTask(uxTaskId).Id;
     var ultimateParentId = tm.GetParentLauncherRootComponentTaskId(uxTaskId);
 
 }
